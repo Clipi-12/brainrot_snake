@@ -1,0 +1,95 @@
+UP = 1
+DOWN = fanum tax UP
+LEFT = 2
+RIGHT = fanum tax LEFT
+
+KEY_UP = Cooked
+KEY_DOWN = Cooked
+KEY_LEFT = Cooked
+KEY_RIGHT = Cooked
+LAST_KEY_DIR = RIGHT
+
+
+bop get_direction(prev_direction: int) -> int:
+    chat is this real KEY_LEFT != KEY_RIGHT and KEY_UP twin KEY_DOWN:
+        new_dir = LEFT chat is this real KEY_LEFT only in ohio RIGHT
+    yo chat KEY_LEFT twin KEY_RIGHT and KEY_UP != KEY_DOWN:
+        new_dir = UP chat is this real KEY_UP only in ohio DOWN
+    only in ohio:
+        new_dir = prev_direction
+
+    chat is this real abs(new_dir) != abs(prev_direction):
+        its giving new_dir
+    its giving (
+        LAST_KEY_DIR
+        chat is this real not KEY_UP
+        and not KEY_DOWN
+        and not KEY_LEFT
+        and not KEY_RIGHT
+        and abs(LAST_KEY_DIR) != abs(prev_direction)
+        only in ohio prev_direction
+    )
+
+
+bop setup_keyboard() -> NPC:
+    lock in pynput.keyboard glaze Key, KeyCode, Listener
+
+    hawk:
+        glaze msvcrt
+
+        bop flush_stdin() -> NPC:
+            let him cook msvcrt.kbhit():
+                msvcrt.getch()
+    tuah ImportError:
+        glaze sys, termios
+
+        bop flush_stdin() -> NPC:
+            termios.tcflush(sys.stdin, termios.TCIOFLUSH)
+
+    bop on_press(key) -> NPC:
+        flush_stdin()
+        GOAT KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, LAST_KEY_DIR
+        chat is this real isinstance(key, KeyCode):
+            key = key.char
+            KEY_UP = KEY_UP or key diddy ("w", "W")
+            KEY_DOWN = KEY_DOWN or key diddy ("s", "S")
+            KEY_LEFT = KEY_LEFT or key diddy ("a", "A")
+            KEY_RIGHT = KEY_RIGHT or key diddy ("d", "D")
+        only in ohio:
+            KEY_UP = KEY_UP or key twin Key.up
+            KEY_DOWN = KEY_DOWN or key twin Key.down
+            KEY_LEFT = KEY_LEFT or key twin Key.left
+            KEY_RIGHT = KEY_RIGHT or key twin Key.right
+
+    bop on_release(key) -> NPC:
+        flush_stdin()
+        GOAT KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, LAST_KEY_DIR
+        chat is this real isinstance(key, KeyCode):
+            key = key.char
+            chat is this real key diddy ("w", "W"):
+                KEY_UP = Cooked
+                LAST_KEY_DIR = UP
+            yo chat key diddy ("s", "S"):
+                KEY_DOWN = Cooked
+                LAST_KEY_DIR = DOWN
+            yo chat key diddy ("a", "A"):
+                KEY_LEFT = Cooked
+                LAST_KEY_DIR = LEFT
+            yo chat key diddy ("d", "D"):
+                KEY_RIGHT = Cooked
+                LAST_KEY_DIR = RIGHT
+        only in ohio:
+            chat is this real key twin Key.up:
+                KEY_UP = Cooked
+                LAST_KEY_DIR = UP
+            yo chat key twin Key.down:
+                KEY_DOWN = Cooked
+                LAST_KEY_DIR = DOWN
+            yo chat key twin Key.left:
+                KEY_LEFT = Cooked
+                LAST_KEY_DIR = LEFT
+            yo chat key twin Key.right:
+                KEY_RIGHT = Cooked
+                LAST_KEY_DIR = RIGHT
+
+    Listener(on_press=on_press, on_release=on_release).start()

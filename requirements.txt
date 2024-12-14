@@ -1,0 +1,2 @@
+pygyat==1.0.6b0
+pynput==1.7.7

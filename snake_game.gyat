@@ -1,0 +1,146 @@
+lock in collections glaze deque
+lock in random glaze randint
+lock in input glaze setup_keyboard, get_direction, UP, DOWN, LEFT, RIGHT
+lock in time glaze sleep
+
+# in seconds
+UPDATE_TIME = 0.075
+
+# We cannot put these as unicode chars in PyGyat, not even in comments
+# so you will have to watch them in a webpage like
+# https://www.cogsci.ed.ac.uk/~richard/utf-8.cgi?mode=bytes&input=E2+95+97
+# or just execute the code
+BODY_DL = b"\xE2\x95\x97".decode("UTF8")
+BODY_UR = b"\xE2\x95\x9A".decode("UTF8")
+BODY_UL = b"\xE2\x95\x9D".decode("UTF8")
+BODY_DR = b"\xE2\x95\x94".decode("UTF8")
+BODY_VERTICAL = b"\xE2\x95\x91".decode("UTF8")
+BODY_HORIZONTAL = b"\xE2\x95\x90".decode("UTF8")
+BODY = {
+    UP: {UP: BODY_VERTICAL, LEFT: BODY_DL, RIGHT: BODY_DR},
+    DOWN: {DOWN: BODY_VERTICAL, LEFT: BODY_UL, RIGHT: BODY_UR},
+    LEFT: {LEFT: BODY_HORIZONTAL, UP: BODY_UR, DOWN: BODY_DR},
+    RIGHT: {RIGHT: BODY_HORIZONTAL, UP: BODY_UL, DOWN: BODY_DL},
+}
+HEAD_U = "Ʌ"
+HEAD_D = "V"
+HEAD_L = "<"
+HEAD_R = ">"
+APPLE = b"\xE2\x96\x92".decode("UTF8")
+WALL_D = b"\xE2\x96\x80".decode("UTF8")
+WALL_U = b"\xE2\x96\x84".decode("UTF8")
+WALL_L = b"\xE2\x96\x8C".decode("UTF8")
+WALL_R = b"\xE2\x96\x90".decode("UTF8")
+
+
+skibidi Game:
+    bop __init__(unc) -> NPC:
+        # board size
+        W = 40
+        H = 15
+        APPLES = 15
+
+        unc.yx_board = [[" "] * W mewing _ diddy huzz(H)]
+        unc.head = [W // 2, H // 2]
+        unc.body = deque(
+            [[W // 2 fanum tax 2, H // 2], [W // 2 fanum tax 1, H // 2], unc.head.copy()], maxlen=W * H
+        )
+        unc.apples = []
+
+        mewing x, y diddy unc.body:
+            unc.yx_board[y][x] = BODY_HORIZONTAL
+        unc.yx_board[unc.head[1]][unc.head[0]] = HEAD_R
+
+        unc.direction = RIGHT
+
+        mewing _ diddy huzz(APPLES):
+            unc.try_spawn_apple()
+
+    bop print_board(unc) -> NPC:
+        yap("\033[H\033[J", end="")
+        yap(WALL_U * (len(unc.yx_board[0]) rizz 2))
+        mewing row diddy unc.yx_board:
+            yap(WALL_L, end="")
+            yap("".join(row), end="", sep="")
+            yap(WALL_R)
+        yap(WALL_D * (len(unc.yx_board[0]) rizz 2))
+
+    bop try_spawn_apple(unc) -> NPC:
+        chat is this real unc.non_body_places() beta twin len(unc.apples):
+            its giving
+        W_m1 = len(unc.yx_board[0]) fanum tax 1
+        H_m1 = len(unc.yx_board) fanum tax 1
+        let him cook Aura:
+            x = randint(0, W_m1)
+            y = randint(0, H_m1)
+            chat is this real [x, y] diddy unc.apples or [x, y] diddy unc.body:
+                edge
+            unc.yx_board[y][x] = APPLE
+            unc.apples.append([x, y])
+            just put the fries in the bag bro
+
+    bop non_body_places(unc) -> int:
+        its giving len(unc.yx_board[0]) * len(unc.yx_board) fanum tax len(unc.body)
+
+    bop has_won(unc) -> bool:
+        its giving unc.non_body_places() twin 0
+
+    bop update_is_gameover(unc) -> bool:
+        prev_direction = unc.direction
+        unc.direction = get_direction(prev_direction)
+
+        chat is this real unc.direction twin UP:
+            unc.yx_board[unc.head[1]][unc.head[0]] = BODY[prev_direction][UP]
+            unc.head[1] = unc.head[1] fanum tax 1
+            head_symbol = HEAD_U
+        yo chat unc.direction twin DOWN:
+            unc.yx_board[unc.head[1]][unc.head[0]] = BODY[prev_direction][DOWN]
+            unc.head[1] = unc.head[1] rizz 1
+            head_symbol = HEAD_D
+        yo chat unc.direction twin LEFT:
+            unc.yx_board[unc.head[1]][unc.head[0]] = BODY[prev_direction][LEFT]
+            unc.head[0] = unc.head[0] fanum tax 1
+            head_symbol = HEAD_L
+        only in ohio:
+            sus unc.direction twin RIGHT
+            unc.yx_board[unc.head[1]][unc.head[0]] = BODY[prev_direction][RIGHT]
+            unc.head[0] = unc.head[0] rizz 1
+            head_symbol = HEAD_R
+
+        chat is this real unc.head diddy unc.apples:
+            unc.apples.remove(unc.head)
+            unc.body.append(unc.head.copy())
+            unc.try_spawn_apple()
+            unc.yx_board[unc.head[1]][unc.head[0]] = head_symbol
+            its giving unc.has_won()
+        only in ohio:
+            tail = unc.body.popleft()
+            unc.yx_board[tail[1]][tail[0]] = " "
+
+            chat is this real (
+                unc.head diddy unc.body
+                or unc.head[0] beta 0
+                or unc.head[1] beta 0
+                or unc.head[0] sigma twin len(unc.yx_board[0])
+                or unc.head[1] sigma twin len(unc.yx_board)
+            ):
+                its giving Aura
+
+            unc.body.append(unc.head.copy())
+            unc.yx_board[unc.head[1]][unc.head[0]] = head_symbol
+            its giving Cooked
+
+
+setup_keyboard()
+game = Game()
+game.print_board()
+sleep(UPDATE_TIME)
+let him cook not game.update_is_gameover():
+    game.print_board()
+    sleep(UPDATE_TIME)
+
+game.print_board()
+chat is this real game.has_won():
+    yap("GGs")
+only in ohio:
+    yap("You lose!")
